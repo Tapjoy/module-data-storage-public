@@ -1,0 +1,49 @@
+**Note**: This public repo contains the documentation for the private GitHub repo <https://github.com/gruntwork-io/module-data-storage>.
+We publish the documentation publicly so it turns up in online searches, but to see the source code, you must be a Gruntwork customer.
+If you're already a Gruntwork customer, the original source for this file is at: <https://github.com/gruntwork-io/module-data-storage/blob/master/modules/aurora/README.md>.
+If you're not a customer, contact us at <info@gruntwork.io> or <http://www.gruntwork.io> for info on how to get access!
+
+# Aurora Module
+
+This module creates an Amazon Relational Database Service (RDS) cluster that runs [Amazon
+Aurora](https://aws.amazon.com/rds/aurora/details/). The cluster is managed by AWS and automatically handles leader 
+election, replication, failover, backups, patching, and encryption. Aurora is compatible with MySQL 5.6.
+
+## How do you use this module?
+
+See the [Aurora example](/examples/aurora) for an example. 
+
+## How do you connect to the database?
+
+This module provides the connection details as [Terraform output 
+variables](https://www.terraform.io/intro/getting-started/outputs.html):
+
+1. **Cluster endpoint**: The endpoint for the whole cluster. You should always use this URL for writes, as it points to 
+   the primary.
+1. **Instance endpoints**: A comma-separated list of all DB instance URLs in the cluster, including the primary and all
+   read replicas. Use these URLs for reads (see "How do you scale this DB?" below).
+1. **Port**: The port to use to connect to the endpoints above.
+
+For more info, see [Aurora 
+endpoints](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html#Aurora.Overview.Endpoints).
+
+You can programmatically extract these variables in your Terraform templates and pass them to other resources (e.g. 
+pass them to User Data in your EC2 instances). You'll also see the variables at the end of each `terraform apply` call 
+or if you run `terraform output`.
+
+## How do you scale this database?
+
+* **Storage**: Aurora manages storage for you, automatically growing cluster volume in 10GB increments up to 64TB.
+* **Vertical scaling**: To scale vertically (i.e. bigger DB instances with more CPU and RAM), use the `instance_type` 
+  input variable. For a list of AWS RDS server types, see [Aurora Pricing](http://aws.amazon.com/rds/aurora/pricing/).
+* **Horizontal scaling**: To scale horizontally, you can add more replicas using the `instance_count` input variable, 
+  and Aurora will automatically deploy the new instances, sync them to the master, and make them available as read 
+  replicas.
+
+For more info, see [Managing an Amazon Aurora DB
+Cluster](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Managing.html).
+
+## How do you configure this module?
+
+This module allows you to configure a number of parameters, such as backup windows, maintenance window, port number,
+and encryption. For a list of all available variables and their descriptions, see [vars.tf](./vars.tf).
