@@ -103,3 +103,7 @@ The version is defined using Git tags. Use GitHub to create a release, which wil
 #### Tests
 
 See the [test](/test) folder for details.
+
+## License
+
+Please see [LICENSE.txt](/LICENSE.txt) for details on how the code in this repo is licensed.
