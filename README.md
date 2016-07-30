@@ -5,17 +5,11 @@ If you're not a customer, contact us at <info@gruntwork.io> or <http://www.grunt
 
 # Data-Storage Modules
 
-This repo contains modules for creating data storage resources such as [RDS database clusters](https://aws.amazon.com/rds/) and [ElastiCache caching engine clusters](https://aws.amazon.com/elasticache/) in AWS. The modules are:
-
-##### RDS Modules
+This repo contains modules for running relational databases such as MySQL, PostgreSQL, and Aurora on Amazon's
+[Relational Database Service (RDS)](https://aws.amazon.com/rds/):
 
 * [aurora](/modules/aurora): Deploy an RDS Aurora cluster.
 * [rds](/modules/rds): Deploy an RDS Cluster for MySQL, Postgres, or MariaDB. 
-
-##### ElastiCache Modules
-
-* [memcached](/modules/memcached): Deploy an ElastiCache memcached cluster. 
-* [redis](/modules/redis): Deploy an Elasticache redis cluster. 
 
 ## What is a Gruntwork Module?
 
@@ -78,13 +72,6 @@ including PostgreSQL, MySQL, Oracle, and SQL Server. RDS automatically includes 
 read replicas, automatically takes nightly snapshots, allows for easy database upgrades, and for easy machine upgrades.
 
 You pay a small premium over running the services yourself and everything is pre-configured for you.
-
-## What is ElastiCache?
-
-Elasticache is Amazon's implementation of a best-practices setup for two popular caching engines, memcached and redis.
-It allows for easy establishment of a redundant caching cluster, backup and restore (redis only), and other popular features.
-
-You pay a moderate premium over running the services yourself and everything is pre-configured for you.
 
 ## Developing a module
 
