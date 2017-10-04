@@ -47,3 +47,18 @@ Cluster](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Managing.h
 
 This module allows you to configure a number of parameters, such as backup windows, maintenance window, port number,
 and encryption. For a list of all available variables and their descriptions, see [vars.tf](./vars.tf).
+
+## Known Issues
+
+### DBInstance not found
+
+As of August 29, 2017, Terraform 0.10.x has an issue where when you apply an RDS Aurora Instance for the first time, you may sometimes receive the following error:
+
+```
+aws_rds_cluster.cluster_with_encryption: Error modifying DB Instance aurora-test: DBInstanceNotFound: DBInstance not found: aurora-test
+status code: 404, request id: 040094aa-8c62-11e7-baa6-0d7ac77494f1
+```
+
+This error occurs because Terraform first creates the database cluster, then creates one or more database instances, and then queries the AWS API for the IDs of those database instances. But Terraform does not wait long enough for the AWS API to propagate these instances to all AWS API endpoints, so AWS initially replies that the given database instance name was not found. 
+
+Fortunately, this issue has a simple fix. After waiting a few seconds, the AWS API will not return the database instances that we expect, so simply re-run `terraform apply` and the operation should complete successfully.  
